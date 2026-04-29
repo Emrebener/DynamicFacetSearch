@@ -106,9 +106,3 @@ The test environment is for demos only. Do **not** treat it as production.
 
 `.env.example` documents the expected variables. `MONGO_URI` is the only value you normally need to change; the defaults work for local Docker Compose and the Vagrant VM.
 
-## Contributing
-
-- Create a feature branch off `develop`.
-- Keep commits scoped; prefer Conventional Commit prefixes (`feat:`, `fix:`, `chore:`, `docs:`).
-- Open a PR targeting `develop`.
-- CI must be green before merge.
