@@ -1,0 +1,56 @@
+<%- include('../partials/header', { title }) %>
+
+<h1><%= title %></h1>
+
+<% if (errors.length > 0) { %>
+  <div class="errors">
+    <h2>Check the product details</h2>
+    <ul>
+      <% errors.forEach((error) => { %>
+        <li><%= error %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form class="product-form" method="<%= method %>" action="<%= action %>">
+  <label>
+    Name
+    <input name="name" value="<%= product.name || '' %>" required>
+  </label>
+
+  <label>
+    Description
+    <textarea name="description" rows="3"><%= product.description || '' %></textarea>
+  </label>
+
+  <label>
+    Category
+    <input name="category" value="<%= product.category || '' %>" required>
+  </label>
+
+  <label>
+    Price
+    <input name="price" type="number" step="0.01" min="0" value="<%= product.price || '' %>" required>
+  </label>
+
+  <label>
+    Condition
+    <select name="condition" required>
+      <% ['New', 'Used', 'Refurbished'].forEach((condition) => { %>
+        <option value="<%= condition %>" <%= product.condition === condition ? 'selected' : '' %>><%= condition %></option>
+      <% }) %>
+    </select>
+  </label>
+
+  <label>
+    Attributes JSON
+    <textarea name="attributes" rows="10" required><%= product.attributesJson || '{}' %></textarea>
+  </label>
+
+  <button class="button" type="submit">Save Product</button>
+  <a href="/products">Cancel</a>
+</form>
+
+<%- include('../partials/footer') %>
+

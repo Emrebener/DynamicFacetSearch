@@ -1,0 +1,26 @@
+<%- include('../partials/header', { title }) %>
+
+<article class="detail">
+  <h1><%= product.name %></h1>
+  <p><%= product.description %></p>
+
+  <dl>
+    <dt>Category</dt>
+    <dd><%= product.category %></dd>
+    <dt>Price</dt>
+    <dd>£<%= product.price.toFixed(2) %></dd>
+    <dt>Condition</dt>
+    <dd><%= product.condition %></dd>
+  </dl>
+
+  <h2>Flexible attributes</h2>
+  <pre><%= attributesJson %></pre>
+
+  <div class="actions">
+    <a class="button" href="/products/<%= product._id %>/edit">Edit</a>
+    <a href="/products">Back to products</a>
+  </div>
+</article>
+
+<%- include('../partials/footer') %>
+

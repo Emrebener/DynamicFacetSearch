@@ -1,0 +1,24 @@
+services:
+  product-catalogue-web:
+    container_name: dynamic-facet-search-web
+    build: .
+    restart: always
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3000
+      MONGO_URI: mongodb://product-catalogue-mongo:27017/product_catalogue
+      MONGO_DB_NAME: product_catalogue
+    ports:
+      - "3010:3000"
+    depends_on:
+      - product-catalogue-mongo
+
+  product-catalogue-mongo:
+    container_name: dynamic-facet-search-mongo
+    image: mongo:7
+    restart: always
+    volumes:
+      - product_catalogue_mongo_data:/data/db
+
+volumes:
+  product_catalogue_mongo_data:

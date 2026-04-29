@@ -1,0 +1,111 @@
+<%- include('../partials/header', { title }) %>
+
+<section class="toolbar">
+  <div>
+    <h1>Products</h1>
+    <p>Filter catalogue records using category-specific MongoDB attributes.</p>
+  </div>
+  <a class="button" href="/products/new">Create Product</a>
+</section>
+
+<%
+function buildProductsUrl(category, facetList) {
+  const params = new URLSearchParams();
+  if (category) params.set('category', category);
+  for (const facet of facetList) {
+    params.append('facetKey', facet.key);
+    params.append('facetValue', facet.value);
+  }
+  const query = params.toString();
+  return query ? `/products?${query}` : '/products';
+}
+function facetsExcluding(key) {
+  return filters.facets.filter((facet) => facet.key !== key);
+}
+%>
+
+<form class="filters" method="get" action="/products">
+  <label>
+    Category
+    <select name="category" onchange="this.form.submit()">
+      <option value="">All categories</option>
+      <% categories.forEach((category) => { %>
+        <option value="<%= category %>" <%= filters.category === category ? 'selected' : '' %>><%= category %></option>
+      <% }) %>
+    </select>
+  </label>
+
+  <% filters.facets.forEach((facet) => { %>
+    <input type="hidden" name="facetKey" value="<%= facet.key %>">
+    <input type="hidden" name="facetValue" value="<%= facet.value %>">
+  <% }) %>
+
+  <button class="button" type="submit">Apply Filters</button>
+  <a href="/products">Clear</a>
+</form>
+
+<% if (filters.category || filters.facets.length > 0) { %>
+  <p class="active-filter">
+    Active filter:
+    <strong><%= filters.category || 'All categories' %></strong>
+    <% filters.facets.forEach((facet) => { %>
+      / <strong><%= facet.key %> = <%= facet.value %></strong>
+      <a href="<%= buildProductsUrl(filters.category, facetsExcluding(facet.key)) %>" title="Remove filter">&times;</a>
+    <% }) %>
+  </p>
+<% } %>
+
+<% if (filters.category && facets.length > 0) { %>
+  <section class="facet-panel">
+    <h2>Generated filters for <%= filters.category %></h2>
+    <% facets.forEach((facet) => { %>
+      <div class="facet-group">
+        <h3><%= facet.key %></h3>
+        <div class="facet-values">
+          <% facet.values.forEach((value) => {
+            const active = filters.facets.some((f) => f.key === facet.key && f.value === value);
+            const nextFacets = active
+              ? facetsExcluding(facet.key)
+              : [...facetsExcluding(facet.key), { key: facet.key, value }];
+          %>
+            <a
+              class="<%= active ? 'facet active' : 'facet' %>"
+              href="<%= buildProductsUrl(filters.category, nextFacets) %>"
+            ><%= value %></a>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  </section>
+<% } %>
+
+<section class="product-grid">
+  <% if (products.length === 0) { %>
+    <p>No products match the current filters.</p>
+  <% } %>
+
+  <% products.forEach((product) => { %>
+    <article class="product-card">
+      <h2><a href="/products/<%= product._id %>"><%= product.name %></a></h2>
+      <p><%= product.description %></p>
+      <dl>
+        <dt>Category</dt>
+        <dd><%= product.category %></dd>
+        <dt>Price</dt>
+        <dd>£<%= product.price.toFixed(2) %></dd>
+        <dt>Condition</dt>
+        <dd><%= product.condition %></dd>
+      </dl>
+      <pre><%= JSON.stringify(product.attributes, null, 2) %></pre>
+      <div class="actions">
+        <a href="/products/<%= product._id %>">View</a>
+        <a href="/products/<%= product._id %>/edit">Edit</a>
+        <form method="post" action="/products/<%= product._id %>?_method=DELETE">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    </article>
+  <% }) %>
+</section>
+
+<%- include('../partials/footer') %>
