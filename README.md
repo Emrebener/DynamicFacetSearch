@@ -1,4 +1,8 @@
-# Flexible Product Catalogue
+<img width="898" height="1091" alt="image" src="https://github.com/user-attachments/assets/cd332186-3498-4b67-91c5-2778f4b6c4e4" />
+
+<img width="913" height="1202" alt="image" src="https://github.com/user-attachments/assets/f4f8edfe-f98f-4822-8193-628d77446116" />
+
+# DynamicFacetSearch
 
 A small containerised Node.js / Express / EJS / MongoDB CRUD web app that stores products in a single `products` collection and derives filter facets dynamically from each product's flexible `attributes` object. No authentication.
 
