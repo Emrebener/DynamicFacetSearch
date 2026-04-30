@@ -1,5 +1,5 @@
+<img width="2172" height="724" alt="image" src="https://github.com/user-attachments/assets/ef5528d9-0889-4784-baf6-05b23c1d145d" />
 <img width="898" height="1091" alt="image" src="https://github.com/user-attachments/assets/cd332186-3498-4b67-91c5-2778f4b6c4e4" />
-
 <img width="913" height="1202" alt="image" src="https://github.com/user-attachments/assets/f4f8edfe-f98f-4822-8193-628d77446116" />
 
 # DynamicFacetSearch
